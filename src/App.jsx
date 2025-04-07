@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import './styles.css';
-
+import LoginModal from './components/LoginModal';
 
 const myAdminEmail = "tylermkimberlin@gmail.com";
-
 
 const initialResponses = [
   { id: "hardcoded-1", name: "Madison Thurman", text: "I grew up in Edinburgh and would frequently pass through Franklin. I would see the Benjamin Franklin statue and dream about being at that college. I'm now finishing up my freshman year as a Franklin College student:)", created_at: "2023-01-01T00:00:00Z" },
@@ -21,9 +20,8 @@ const initialResponses = [
   { id: "hardcoded-11", name: "Judy Dewitt", text: "I like living in Franklin because historical places and events are respected even as the town grows.", created_at: "2023-01-11T00:00:00Z" }
 ];
 
-
 export default function App() {
-  const [responses, setResponses] = useState([]);
+  const [responses, setResponses] = useState(initialResponses);
   const [user, setUser] = useState(null);
   const [expandedBox, setExpandedBox] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
@@ -31,7 +29,71 @@ export default function App() {
   const [formData, setFormData] = useState({ name: "", text: "" });
   const boxesRef = useRef([]);
   const holdTimers = useRef({});
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const fetchResponses = async () => {
+      const { data, error } = await supabase.from("responses").select("*");
+      if (!error && data) {
+        const combined = [...initialResponses, ...data];
+        combined.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        setResponses(combined);
+      }
+    };
+    fetchResponses();
+  }, []);
+
+  const isOwnerOrAdmin = (responseUserId) => {
+    return user && (user.email === myAdminEmail || user.id === responseUserId);
+  };
+
+  const handleBoxClick = (id) => {
+    if (isHolding || heldBox === id) return;
+    setExpandedBox(prev => (prev === id ? null : id));
+  };
+
+  const handleClickOutside = (e) => {
+    if (!boxesRef.current.some(ref => ref && ref.contains(e.target))) {
+      setExpandedBox(null);
+      setHeldBox(null);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    if (!formData.name.trim() || !formData.text.trim()) return;
+
+    const { data, error } = await supabase.from("responses").insert([{
+      name: formData.name,
+      text: formData.text,
+      user_id: user.id,
+      created_at: new Date().toISOString()
+    }]);
+
+    if (!error && data.length > 0) {
+      const updated = [...responses, data[0]];
+      updated.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      setResponses(updated);
+      setFormData({ name: "", text: "" });
+    }
+  };
 
   const handleDelete = async (id) => {
     const isHardcoded = id.startsWith("hardcoded");
@@ -44,86 +106,11 @@ export default function App() {
       }
     }
   };
- 
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    fetchUser();
-  }, []);
-
-
-  useEffect(() => {
-    const fetchResponses = async () => {
-      const { data, error } = await supabase.from("responses").select();
-      if (!error && data) {
-        const all = [...initialResponses, ...data];
-        all.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-        setResponses(all);
-      }
-    };
-    fetchResponses();
-  }, []);
-
-
-  const isOwnerOrAdmin = (responseUserId) => {
-    return user && (user.email === myAdminEmail || user.id === responseUserId);
-  };
-
-
-  const handleBoxClick = (id) => {
-    if (isHolding) return;
-    if (heldBox === id) return;
-    setExpandedBox(prev => (prev === id ? null : id));
-  };
-
-
-  const handleClickOutside = (event) => {
-    if (!boxesRef.current.some(ref => ref && ref.contains(event.target))) {
-      setExpandedBox(null);
-      setHeldBox(null);
-    }
-  };
-
-
-  const handleInputChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.name.trim() || !formData.text.trim() || !user) return;
-
-
-    const { data, error } = await supabase.from("responses").insert([{
-      name: formData.name,
-      text: formData.text,
-      user_id: user.id,
-      created_at: new Date().toISOString(),
-    }]);
-
-
-    if (!error && data.length > 0) {
-      setResponses(prev => {
-        const updated = [...prev, data[0]];
-        return updated.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-      });
-      setFormData({ name: "", text: "" });
-    }
-  };
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
 
   return (
     <div className="main-wrapper">
@@ -138,7 +125,6 @@ export default function App() {
         </motion.h1>
       </header>
 
-
       <form className="submit-form" onSubmit={handleSubmit}>
         <h2>We'd love to hear your story</h2>
         <input
@@ -149,6 +135,7 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
+          onFocus={() => !user && setShowLoginModal(true)}
         />
         <textarea
           name="text"
@@ -158,10 +145,12 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
+          onFocus={() => !user && setShowLoginModal(true)}
         />
         <button type="submit">Submit</button>
       </form>
 
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
 
       <section className="canva-layout">
         <div className="staggered-layout">
@@ -181,6 +170,8 @@ export default function App() {
               setIsHolding={setIsHolding}
               setHeldBox={setHeldBox}
               holdTimers={holdTimers}
+              onDelete={handleDelete}
+              onEdit={() => alert("Edit functionality coming soon!")}
             />
           ))}
         </div>
@@ -189,8 +180,11 @@ export default function App() {
   );
 }
 
-
-const ExpandableBox = ({ id, name, text, expanded, handleBoxClick, offset, boxRef, setIsHolding, setHeldBox, holdTimers, isOwnerOrAdmin }) => {
+const ExpandableBox = ({
+  id, name, text, expanded, handleBoxClick, offset,
+  boxRef, setIsHolding, setHeldBox, holdTimers,
+  isOwnerOrAdmin, onDelete, onEdit
+}) => {
   const handleMouseDown = () => {
     setIsHolding(true);
     holdTimers.current[id] = setTimeout(() => {
@@ -198,12 +192,10 @@ const ExpandableBox = ({ id, name, text, expanded, handleBoxClick, offset, boxRe
     }, 500);
   };
 
-
   const handleMouseUp = () => {
     setIsHolding(false);
     clearTimeout(holdTimers.current[id]);
   };
-
 
   return (
     <motion.div
@@ -230,18 +222,15 @@ const ExpandableBox = ({ id, name, text, expanded, handleBoxClick, offset, boxRe
       <p>{expanded ? text : text.length > 100 ? text.substring(0, 100) + "..." : text}</p>
       <span className="read-more">{expanded ? "Show Less" : "Read More"}</span>
       {isOwnerOrAdmin && (
-  <div className="admin-controls">
-    <button className="edit-btn" onClick={onEdit}>Edit</button>
-    <button className="delete-btn" onClick={() => {
-      if (window.confirm("Are you sure you want to delete this response?")) {
-        onDelete(id);
-      }
-    }}>Delete</button>
-  </div>
-)}
+        <div className="admin-controls">
+          <button className="edit-btn" onClick={onEdit}>Edit</button>
+          <button className="delete-btn" onClick={() => {
+            if (window.confirm("Are you sure you want to delete this response?")) {
+              onDelete(id);
+            }
+          }}>Delete</button>
+        </div>
+      )}
     </motion.div>
   );
 };
-
-
-
