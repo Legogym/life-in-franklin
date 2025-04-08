@@ -79,14 +79,25 @@ export default function App() {
   
     const { data, error } = await supabase
       .from("responses")
-      .insert([{
-        name: formData.name,
-        text: formData.text,
-        created_at: new Date().toISOString()
-      }])
+      .insert([
+        {
+          name: formData.name,
+          text: formData.text,
+          created_at: new Date().toISOString()
+        }
+      ])
       .select();
   
-    if (!error && data.length > 0) {
+    // ✅ Log any Supabase error
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return;
+    }
+  
+    // ✅ Log returned data (helpful if insert silently fails)
+    console.log("Inserted data:", data);
+  
+    if (data && data.length > 0) {
       const updated = [...responses, data[0]];
       updated.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       setResponses(updated);
