@@ -20,14 +20,10 @@ const initialResponses = [
   { id: "hardcoded-11", name: "Judy Dewitt", text: "I like living in Franklin because historical places and events are respected even as the town grows.", created_at: "2023-01-11T00:00:00Z" }
 ];
 
-function App() {
-  console.log("SUPABASE URL:", import.meta.env.VITE_SUPABASE_URL);
-  console.log("SUPABASE KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
-
-  // your existing code below...
-}
 
 export default function App() {
+  console.log("SUPABASE URL:", import.meta.env.VITE_SUPABASE_URL);
+  console.log("SUPABASE KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
   const [responses, setResponses] = useState(initialResponses);
   // const [user, setUser] = useState(null);
   const [expandedBox, setExpandedBox] = useState(null);
