@@ -51,9 +51,11 @@ export default function App() {
     fetchResponses();
   }, []);
 
-  const isOwnerOrAdmin = (responseUserId) => {
-    return user && (user.email === myAdminEmail || user.id === responseUserId);
-  };
+ // const isOwnerOrAdmin = (responseUserId) => {
+  //  return user && (user.email === myAdminEmail || user.id === responseUserId);
+  //};
+
+  const isOwnerOrAdmin = () => false;
 
   const handleBoxClick = (id) => {
     if (isHolding || heldBox === id) return;
@@ -159,8 +161,9 @@ export default function App() {
               name={response.name}
               text={response.text}
               userId={response.user_id}
-              currentUser={user}
-              isOwnerOrAdmin={isOwnerOrAdmin(response.user_id)}
+              //currentUser={user}
+              //isOwnerOrAdmin={isOwnerOrAdmin(response.user_id)}
+              isOwnerOrAdmin={false}
               expanded={expandedBox === response.id || heldBox === response.id}
               handleBoxClick={handleBoxClick}
               offset={index % 2 === 0 ? 'left-stagger' : 'right-stagger'}
