@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import './styles.css';
-import LoginModal from './components/LoginModal';
+// import LoginModal from './components/LoginModal';
 
 const myAdminEmail = "tylermkimberlin@gmail.com";
 
@@ -22,22 +22,22 @@ const initialResponses = [
 
 export default function App() {
   const [responses, setResponses] = useState(initialResponses);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [expandedBox, setExpandedBox] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
   const [heldBox, setHeldBox] = useState(null);
   const [formData, setFormData] = useState({ name: "", text: "" });
   const boxesRef = useRef([]);
   const holdTimers = useRef({});
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  // const [showLoginModal, setShowLoginModal] = useState(false);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    fetchUser();
-  }, []);
+  //useEffect(() => {
+    //const fetchUser = async () => {
+      //const { data: { user } } = await supabase.auth.getUser();
+      //setUser(user);
+    //};
+    //fetchUser();
+  //}, []);
 
   useEffect(() => {
     const fetchResponses = async () => {
@@ -73,20 +73,17 @@ export default function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) {
-      setShowLoginModal(true);
-      return;
-    }
-
     if (!formData.name.trim() || !formData.text.trim()) return;
-
-    const { data, error } = await supabase.from("responses").insert([{
-      name: formData.name,
-      text: formData.text,
-      user_id: user.id,
-      created_at: new Date().toISOString()
-    }]);
-
+  
+    const { data, error } = await supabase
+      .from("responses")
+      .insert([{
+        name: formData.name,
+        text: formData.text,
+        created_at: new Date().toISOString()
+      }])
+      .select();
+  
     if (!error && data.length > 0) {
       const updated = [...responses, data[0]];
       updated.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
@@ -94,6 +91,7 @@ export default function App() {
       setFormData({ name: "", text: "" });
     }
   };
+  
 
   const handleDelete = async (id) => {
     const isHardcoded = id.startsWith("hardcoded");
@@ -135,7 +133,7 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
-          onFocus={() => !user && setShowLoginModal(true)}
+          //onFocus={() => !user && setShowLoginModal(true)}
         />
         <textarea
           name="text"
@@ -145,12 +143,12 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
-          onFocus={() => !user && setShowLoginModal(true)}
+          //onFocus={() => !user && setShowLoginModal(true)}
         />
         <button type="submit">Submit</button>
       </form>
 
-      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+      {/*showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />} */}
 
       <section className="canva-layout">
         <div className="staggered-layout">
