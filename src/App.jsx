@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import './styles.css';
+// import LoginModal from './components/LoginModal';
 
 const myAdminEmail = "tylermkimberlin@gmail.com";
 
@@ -20,6 +21,8 @@ const initialResponses = [
 ];
 
 export default function App() {
+  console.log("SUPABASE URL:", import.meta.env.VITE_SUPABASE_URL);
+  console.log("SUPABASE KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
   const [responses, setResponses] = useState(initialResponses);
   const [expandedBox, setExpandedBox] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
@@ -33,7 +36,7 @@ export default function App() {
       const { data, error } = await supabase.from("responses").select("*");
       if (!error && data) {
         const combined = [...initialResponses, ...data];
-        combined.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        combined.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // show newest first
         setResponses(combined);
       }
     };
@@ -78,9 +81,11 @@ export default function App() {
       return;
     }
 
+    console.log("Inserted data:", data);
+
     if (data && data.length > 0) {
-      const updated = [data[0], ...responses];
-      updated.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const updated = [data[0], ...responses]; // add to top
+      updated.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // newest first
       setResponses(updated);
       setFormData({ name: "", text: "" });
     }
