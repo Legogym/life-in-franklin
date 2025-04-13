@@ -117,12 +117,12 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          What Makes Franklin Special?
+          Franklin The Roots of Our Community
         </motion.h1>
       </header>
 
       <form className="submit-form" onSubmit={handleSubmit}>
-        <h2>We'd love to hear your story</h2>
+        <h2>What do you love about franklin?</h2>
         <input
           type="text"
           name="name"
@@ -135,7 +135,7 @@ export default function App() {
         <textarea
           name="text"
           rows="5"
-          placeholder="Tell us what makes Franklin special to you..."
+          placeholder="Tell us what makes Franklin special to you and why you love it..."
           value={formData.text}
           onChange={handleInputChange}
           required
