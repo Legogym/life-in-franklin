@@ -117,7 +117,7 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          Franklin The Roots of Our Community
+          Franklin, The Roots of Our Community
         </motion.h1>
       </header>
 
@@ -135,7 +135,7 @@ export default function App() {
         <textarea
           name="text"
           rows="5"
-          placeholder="Tell us what makes Franklin special to you and why you love it..."
+          placeholder="Tell us what makes Franklin Indiana special to you and why you love it..."
           value={formData.text}
           onChange={handleInputChange}
           required
