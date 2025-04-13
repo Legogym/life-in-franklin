@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import './styles.css';
-// import LoginModal from './components/LoginModal';
 
 const myAdminEmail = "tylermkimberlin@gmail.com";
 
@@ -20,43 +19,26 @@ const initialResponses = [
   { id: "hardcoded-11", name: "Judy Dewitt", text: "I like living in Franklin because historical places and events are respected even as the town grows.", created_at: "2023-01-11T00:00:00Z" }
 ];
 
-
 export default function App() {
-  console.log("SUPABASE URL:", import.meta.env.VITE_SUPABASE_URL);
-  console.log("SUPABASE KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
   const [responses, setResponses] = useState(initialResponses);
-  // const [user, setUser] = useState(null);
   const [expandedBox, setExpandedBox] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
   const [heldBox, setHeldBox] = useState(null);
   const [formData, setFormData] = useState({ name: "", text: "" });
   const boxesRef = useRef([]);
   const holdTimers = useRef({});
-  // const [showLoginModal, setShowLoginModal] = useState(false);
-
-  //useEffect(() => {
-    //const fetchUser = async () => {
-      //const { data: { user } } = await supabase.auth.getUser();
-      //setUser(user);
-    //};
-    //fetchUser();
-  //}, []);
 
   useEffect(() => {
     const fetchResponses = async () => {
       const { data, error } = await supabase.from("responses").select("*");
       if (!error && data) {
         const combined = [...initialResponses, ...data];
-        combined.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        combined.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setResponses(combined);
       }
     };
     fetchResponses();
   }, []);
-
- // const isOwnerOrAdmin = (responseUserId) => {
-  //  return user && (user.email === myAdminEmail || user.id === responseUserId);
-  //};
 
   const isOwnerOrAdmin = () => false;
 
@@ -79,7 +61,7 @@ export default function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.text.trim()) return;
-  
+
     const { data, error } = await supabase
       .from("responses")
       .insert([
@@ -90,24 +72,19 @@ export default function App() {
         }
       ])
       .select();
-  
-    // ✅ Log any Supabase error
+
     if (error) {
       console.error("Supabase insert error:", error);
       return;
     }
-  
-    // ✅ Log returned data (helpful if insert silently fails)
-    console.log("Inserted data:", data);
-  
+
     if (data && data.length > 0) {
-      const updated = [...responses, data[0]];
-      updated.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      const updated = [data[0], ...responses];
+      updated.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       setResponses(updated);
       setFormData({ name: "", text: "" });
     }
   };
-  
 
   const handleDelete = async (id) => {
     const isHardcoded = id.startsWith("hardcoded");
@@ -149,7 +126,6 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
-          //onFocus={() => !user && setShowLoginModal(true)}
         />
         <textarea
           name="text"
@@ -159,12 +135,9 @@ export default function App() {
           onChange={handleInputChange}
           required
           className="text-input"
-          //onFocus={() => !user && setShowLoginModal(true)}
         />
         <button type="submit">Submit</button>
       </form>
-
-      {/*showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />} */}
 
       <section className="canva-layout">
         <div className="staggered-layout">
@@ -175,8 +148,6 @@ export default function App() {
               name={response.name}
               text={response.text}
               userId={response.user_id}
-              //currentUser={user}
-              //isOwnerOrAdmin={isOwnerOrAdmin(response.user_id)}
               isOwnerOrAdmin={false}
               expanded={expandedBox === response.id || heldBox === response.id}
               handleBoxClick={handleBoxClick}
