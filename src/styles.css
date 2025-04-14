@@ -10,12 +10,12 @@
 html, body {
     min-height: 100%;
     font-family: "Outfit", sans-serif;
-    background: radial-gradient(circle at 50% 50%, #c7ecee 0%, #bcecec 50%, #abdbdd 100%);
+    background: radial-gradient(circle at 50% 50%, #d1eef0 0%, #c0e6e6 50%, #bbe9eb 100%);
     color: #292929;
 }
 
 body, #root, .main-wrapper {
-    background: radial-gradient(circle at 50% 50%, #c7ecee 0%, #bcecec 50%, #abdbdd 100%);
+    background: radial-gradient(circle at 50% 50%, #d1eef0 0%, #c0e6e6 50%, #bbe9eb 100%);
     width: 100%;
 }
 
