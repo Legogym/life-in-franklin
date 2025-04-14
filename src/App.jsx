@@ -7,18 +7,19 @@ import './styles.css';
 const myAdminEmail = "tylermkimberlin@gmail.com";
 
 const initialResponses = [
-  { id: "hardcoded-1", name: "Madison Thurman", text: "I grew up in Edinburgh and would frequently pass through Franklin. I would see the Benjamin Franklin statue and dream about being at that college. I'm now finishing up my freshman year as a Franklin College student:)", created_at: "2023-01-01T00:00:00Z" },
-  { id: "hardcoded-2", name: "Kathy Mowry", text: "Franklin is special to me because it has a \"hometown feel\". We loved living in Franklin and have many friends that are like family to us. ❤️", created_at: "2023-01-02T00:00:00Z" },
-  { id: "hardcoded-3", name: "Rachel Mahurin", text: "I grew up on the near east side of Indy and moved to Nblsv for 5 years. I've been in Franklin now for over 2.5 years and my 💗 has never felt more at home. I would say it's the community that makes it feel like home. I see people coming together in a way l've not really experienced in other places.", created_at: "2023-01-03T00:00:00Z" },
-  { id: "hardcoded-4", name: "Paula Prentice Law", text: "I love that people gather downtown Franklin and walk up and down the streets. I also enjoy all the activities they schedule downtown.", created_at: "2023-01-04T00:00:00Z" },
-  { id: "hardcoded-5", name: "Ellen Guido", text: "I am from NYC. I moved to Indiana in 1989. When I first got here I hated it, 30 years later I love it in Indiana and consider it my home. I wish I could have gone to school here too. There are far too many things and reasons why Indiana, particularly Franklin Indiana is my home.", created_at: "2023-01-05T00:00:00Z" },
+  { id: "hardcoded-1", name: "Judy Dewitt", text: "I like living in Franklin because historical places and events are respected even as the town grows.", created_at: "2023-01-11T00:00:00Z" },
+  { id: "hardcoded-2", name: "Carrie Lautzenhiser", text: "What I love about franklin!! I love the artcraft and all the amazing movies they play. I love the small town feeling!! It's a great small town.  I love how every year they do the memorable day mile to honor the brave that life their life!!", created_at: "2023-01-10T00:00:00Z" },
+  { id: "hardcoded-3", name: "Teresa Rexroat", text: "I love the history of it all. My grandmas house where my mom and her sister grew up. We spent a lot of time at the Province park. Now we walk the trails in the park which is beutiful. I enjoy the amphitheater, the cruise-ins and the farmers mkt.", created_at: "2023-01-09T00:00:00Z" },
+  { id: "hardcoded-4", name: "Anonymous", text: "We love Province park, the walking trails also great for family get togethers. Also downtown is great with all the different shops and restaurants.", created_at: "2023-01-08T00:00:00Z" },
+  { id: "hardcoded-5", name: "Rebecca June Wilson Zarrinnegar", text: "We lived there for 26 years, raised our kids there, we still love that little town and the community! We still go there often! We now live in Indy but miss that small town charm!", created_at: "2023-01-07T00:00:00Z" },
   { id: "hardcoded-6", name: "Ashlyn Myers", text: "I love how, despite it's continuous innovations, Franklin still gives me the same small-town feeling I've always felt, especially when visiting downtown. The people and businesses are what make Franklin feel so cozy, and I just love it! How lucky are we to live in a town that feels like a Hallmark movie?", created_at: "2023-01-06T00:00:00Z" },
-  { id: "hardcoded-7", name: "Rebecca June Wilson Zarrinnegar", text: "We lived there for 26 years, raised our kids there, we still love that little town and the community! We still go there often! We now live in Indy but miss that small town charm!", created_at: "2023-01-07T00:00:00Z" },
-  { id: "hardcoded-8", name: "Anonymous", text: "We love Province park, the walking trails also great for family get togethers. Also downtown is great with all the different shops and restaurants.", created_at: "2023-01-08T00:00:00Z" },
-  { id: "hardcoded-9", name: "Teresa Rexroat", text: "I love the history of it all. My grandmas house where my mom and her sister grew up. We spent a lot of time at the Province park. Now we walk the trails in the park which is beutiful. I enjoy the amphitheater, the cruise-ins and the farmers mkt.", created_at: "2023-01-09T00:00:00Z" },
-  { id: "hardcoded-10", name: "Carrie Lautzenhiser", text: "What I love about franklin!! I love the artcraft and all the amazing movies they play. I love the small town feeling!! It's a great small town.  I love how every year they do the memorable day mile to honor the brave that life their life!!", created_at: "2023-01-10T00:00:00Z" },
-  { id: "hardcoded-11", name: "Judy Dewitt", text: "I like living in Franklin because historical places and events are respected even as the town grows.", created_at: "2023-01-11T00:00:00Z" }
+  { id: "hardcoded-7", name: "Ellen Guido", text: "I am from NYC. I moved to Indiana in 1989. When I first got here I hated it, 30 years later I love it in Indiana and consider it my home. I wish I could have gone to school here too. There are far too many things and reasons why Indiana, particularly Franklin Indiana is my home.", created_at: "2023-01-05T00:00:00Z" },
+  { id: "hardcoded-8", name: "Paula Prentice Law", text: "I love that people gather downtown Franklin and walk up and down the streets. I also enjoy all the activities they schedule downtown.", created_at: "2023-01-04T00:00:00Z" },
+  { id: "hardcoded-9", name: "Rachel Mahurin", text: "I grew up on the near east side of Indy and moved to Nblsv for 5 years. I've been in Franklin now for over 2.5 years and my 💗 has never felt more at home. I would say it's the community that makes it feel like home. I see people coming together in a way l've not really experienced in other places.", created_at: "2023-01-03T00:00:00Z" },
+  { id: "hardcoded-10", name: "Kathy Mowry", text: "Franklin is special to me because it has a \"hometown feel\". We loved living in Franklin and have many friends that are like family to us. ❤️", created_at: "2023-01-02T00:00:00Z" },
+  { id: "hardcoded-11", name: "Madison Thurman", text: "I grew up in Edinburgh and would frequently pass through Franklin. I would see the Benjamin Franklin statue and dream about being at that college. I'm now finishing up my freshman year as a Franklin College student:)", created_at: "2023-01-01T00:00:00Z" }
 ];
+
 
 export default function App() {
   console.log("SUPABASE URL:", import.meta.env.VITE_SUPABASE_URL);
@@ -111,14 +112,24 @@ export default function App() {
   return (
     <div className="main-wrapper">
       <header className="header">
-        <motion.h1
-          className="title"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          Franklin, The Roots of Our Community
-        </motion.h1>
+        <motion.div style={{ width: "100%" }}>
+          <motion.h1
+            className="title"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            FRANKLIN INDIANA
+          </motion.h1>
+          <motion.h2
+            className="subtitle"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+          >
+            THE ROOTS OF OUR COMMUNITY
+          </motion.h2>
+        </motion.div>
       </header>
 
       <form className="submit-form" onSubmit={handleSubmit}>

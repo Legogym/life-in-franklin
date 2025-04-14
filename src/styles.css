@@ -10,12 +10,12 @@
 html, body {
     min-height: 100%;
     font-family: "Outfit", sans-serif;
-    background: radial-gradient(circle at 50% 50%, #c6f4f1 0%, #e0fcfb 50%, #d0ffff 100%);
+    background: radial-gradient(circle at 50% 50%, #c7ecee 0%, #bcecec 50%, #abdbdd 100%);
     color: #292929;
 }
 
 body, #root, .main-wrapper {
-    background: radial-gradient(circle at 50% 50%, #c6f4f1 0%, #e0fcfb 50%, #d0ffff 100%);
+    background: radial-gradient(circle at 50% 50%, #c7ecee 0%, #bcecec 50%, #abdbdd 100%);
     width: 100%;
 }
 
@@ -39,42 +39,52 @@ body, #root, .main-wrapper {
     margin-bottom: 0.2rem;
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 800px; /* Restricts the width consistently */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.title,
-.sub-title {
-    display: inline-block;
-    font-weight: 800;
-    font-family: 'Bebas Neue', sans-serif;
+.title, .subtitle {
+    width: 100%; /* Match width of the header container */
     text-align: center;
-    width: fit-content;
     padding: 0 1.2rem;
 }
 
 .title {
     color: #002d4d;
-    font-size: 4.8rem;
+    font-size: 4.0rem;
     animation: fadeInSlideUp 1s ease forwards;
-    letter-spacing: 0.73rem;
+    letter-spacing: 0.25rem;
     margin-bottom: 0.1rem;
 }
 
-.sub-title {
-    color: #003f5c;
-    font-size: 2.2rem;
-    animation: fadeInPop 0.4s ease 1s forwards;
+.subtitle {
+    color: #07568f; 
+    font-size: 2.0rem;
+    animation: fadeInPop 0.5s ease 0.45s forwards;
     opacity: 0;
     transform: scale(0.95);
     animation-fill-mode: forwards;
     z-index: 10;
-    background-color: #e0fcfb;
-    position: static;
-    letter-spacing: 0.04rem;
+    letter-spacing: 0.37rem; /* Match .title */
+    margin-bottom: 0.2rem;
 }
+@keyframes fadeInPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 
 /* =======================
    Animations
