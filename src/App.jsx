@@ -137,7 +137,7 @@ export default function App() {
         <input
           type="text"
           name="name"
-          placeholder="Your name"
+          placeholder="Your name... If you wish enter Anonymous"
           value={formData.name}
           onChange={handleInputChange}
           required
