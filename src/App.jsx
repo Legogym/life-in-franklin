@@ -137,12 +137,20 @@ export default function App() {
         <input
           type="text"
           name="name"
-          placeholder="Your name... If you wish enter Anonymous"
+          placeholder="Your name"
           value={formData.name}
           onChange={handleInputChange}
           required
           className="text-input"
         />
+        {/* Anonymous Button */}
+  <button
+    type="button"
+    className="anonymous-button"
+    onClick={() => setFormData(prev => ({ ...prev, name: "Anonymous" }))}
+  >
+    Enter Anonymously
+  </button>
         <textarea
           name="text"
           rows="5"

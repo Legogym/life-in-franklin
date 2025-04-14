@@ -163,22 +163,22 @@ body, #root, .main-wrapper {
 }
 
 .anonymous-button {
-    display: inline-block;
-    margin-bottom: 1.2rem;
-    padding: 0.4rem 0.9rem;
-    background-color: #f0f0f0;
-    color: #007C91;
-    font-weight: 500;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    background-color: #007C91;
+    color: white;
+    border: 1px;
+    border-radius: 6px;
     font-size: 0.9rem;
-    border: 1px solid #bbb;
-    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.anonymous-button:hover {
-    background-color: #dff8f8;
-}
+    transition: background-color 0.3s;
+  }
+  
+  .anonymous-button:hover {
+    background-color: #005f63;
+  }
+  
 
 button[type="submit"] {
     background-color: #007C91;
